@@ -73,6 +73,9 @@ main{padding:2rem 0}
 .slideshow{position:relative;min-height:220px;overflow:hidden;border-radius:12px;padding:0;background:var(--card)}
 .slide{position:absolute;inset:0;padding:0;opacity:0;transform:translateY(8px) scale(.995);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.9,.3,1)}
 .slide.active{opacity:1;transform:translateY(0) scale(1)}
+.slide .slide-bg{position:absolute;inset:0;z-index:0}
+.slide a.full-slide-link{position:absolute;inset:0;z-index:1;display:block;text-decoration:none;color:inherit}
+.slide .slide-content{position:relative;z-index:2}
 .slideshow-controls{display:flex;gap:.5rem;justify-content:center;margin-top:.75rem}
 .slideshow-controls button{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);padding:.4rem .65rem;border-radius:8px;cursor:pointer;color:var(--fg)}
 .slideshow-controls button:focus{outline:2px solid rgba(104,166,255,0.5)}
