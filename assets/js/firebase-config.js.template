@@ -1,0 +1,10 @@
+// Copy this file to assets/js/firebase-config.js and replace the values with your Firebase project config.
+// Then include it in your pages (it should set window.__GXE_FIREBASE_CONFIG).
+window.__GXE_FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "your-project.firebaseapp.com",
+  projectId: "your-project-id",
+  storageBucket: "your-project-id.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
+};

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Departments — GXE Government</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" href="/assets/images/emblem.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/images/emblem.png">
+  <link rel="manifest" href="/assets/manifest.json">
+  <link rel="manifest" href="/assets/manifest.json">
+  <meta name="theme-color" content="#0b3d91">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="brand-with-emblem"><span class="site-emblem-img small" role="img" aria-label="GXE emblem"><img src="/assets/images/emblem.png" alt="GXE emblem"/></span><a class="brand" href="/">GXE Government</a></div>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/departments.html">Departments</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="top-actions">
+        <a class="btn-ghost" href="/login.html" id="signInBtn">Sign in</a>
+        <a class="btn-primary" href="/login.html" id="signUpBtn">Sign up</a>
+        <a id="accountLink" class="btn-ghost" href="/dashboard.html" title="Citizen portal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.4" />
+            <path d="M4 20c0-3.3 2.7-6 6-6h4c3.3 0 6 2.7 6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="visually-hidden">Citizen portal</span>
+        </a>
+        <button id="navToggle" aria-expanded="false" aria-controls="siteOverlay" aria-label="Open menu"><span class="hamburger-lines" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </header>
+    <div id="siteOverlay" class="site-overlay" aria-hidden="true">
+      <div class="overlay-inner">
+        <button id="overlayClose" class="overlay-close" aria-label="Close menu">✕</button>
+        <nav class="overlay-nav" aria-label="Overlay navigation">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/departments.html">Departments</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/dashboard.html">Citizen portal</a></li>
+          </ul>
+        </nav>
+        <section class="overlay-settings" aria-labelledby="settingsHeading">
+          <h3 id="settingsHeading">UI Settings</h3>
+          <div class="widgets">
+            <div class="widget widget-theme" role="region" aria-label="Theme selector">
+              <h4>Theme</h4>
+              <div class="theme-settings">
+                <label for="themeSelect">Appearance</label>
+                <select id="themeSelect" aria-label="Select theme">
+                  <option value="auto">Auto</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="midnight">Midnight</option>
+                  <option value="colorblind">Colorblind</option>
+                </select>
+              </div>
+              <div class="motion-settings">
+                <label for="reduceMotionToggle">Reduce UI motion &amp; effects</label>
+                <div><input type="checkbox" id="reduceMotionToggle" aria-label="Reduce UI motion and effects" /> <small class="muted">Turn off animated glows and motion</small></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <main id="main" class="container" role="main">
+      <h1>Imperial Ministries & Regional Administration</h1>
+      <p>The GXE is administered by a combination of central ministries and regional feudal authorities in the territories. Explore key ministries below and click to learn more.</p>
+      <section class="cards departments-cards" aria-label="Departments list">
+        <article class="card dept-card" data-dept="finance">
+          <header class="card-head">
+            <h3>Ministry of Finance</h3>
+            <button class="expand-btn" aria-expanded="false" aria-controls="dept-finance-desc">More</button>
+          </header>
+          <div id="dept-finance-desc" class="card-body" hidden>
+            <p>Oversees imperial treasury and taxation; manages the Empire's Xana Gold economy, budgeting, and public expenditures. Contact the Treasury office for grants and public project funding.</p>
+            <p><a class="btn" href="/contact.html">Contact Ministry</a></p>
+          </div>
+        </article>
+
+        <article class="card dept-card" data-dept="defense">
+          <header class="card-head">
+            <h3>Ministry of Defense</h3>
+            <button class="expand-btn" aria-expanded="false" aria-controls="dept-defense-desc">More</button>
+          </header>
+          <div id="dept-defense-desc" class="card-body" hidden>
+            <p>Coordinates the Imperial Armed Forces, maintains national security policy, and oversees the elite Maid Corps units. Recruitment and public information are handled by regional recruitment centers.</p>
+            <p><a class="btn" href="/contact.html">Contact Ministry</a></p>
+          </div>
+        </article>
+
+        <article class="card dept-card" data-dept="health">
+          <header class="card-head">
+            <h3>Ministry of Health</h3>
+            <button class="expand-btn" aria-expanded="false" aria-controls="dept-health-desc">More</button>
+          </header>
+          <div id="dept-health-desc" class="card-body" hidden>
+            <p>Responsible for public health policy, disease control, and healthcare administration across the homeland and dependencies. Learn how to access services in your region.</p>
+            <p><a class="btn" href="/contact.html">Contact Ministry</a></p>
+          </div>
+        </article>
+
+        <article class="card dept-card" data-dept="colonial">
+          <header class="card-head">
+            <h3>Ministry of Colonial Affairs</h3>
+            <button class="expand-btn" aria-expanded="false" aria-controls="dept-colonial-desc">More</button>
+          </header>
+          <div id="dept-colonial-desc" class="card-body" hidden>
+            <p>Manages relations with dukes, duchesses, and colonial administrations to ensure the smooth operation of regional governance within imperial law.</p>
+            <p><a class="btn" href="/contact.html">Contact Ministry</a></p>
+          </div>
+        </article>
+
+        <article class="card dept-card" data-dept="assembly">
+          <header class="card-head">
+            <h3>National Assembly</h3>
+            <button class="expand-btn" aria-expanded="false" aria-controls="dept-assembly-desc">More</button>
+          </header>
+          <div id="dept-assembly-desc" class="card-body" hidden>
+            <p>The representative body advising on legislation and fiscal policy. The Assembly accepts petitions and public input during regular sittings.</p>
+            <p><a class="btn" href="/about.html">Learn more</a></p>
+          </div>
+        </article>
+      </section>
+      <p>In outlying realms, regional rulers (dukes, lords, queens) govern in the Empress's name under feudal arrangements that respect local custom while maintaining imperial sovereignty.</p>
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/">
+            <span class="site-emblem-img" role="img" aria-label="GXE emblem"><img src="/assets/images/emblem.png" alt="GXE emblem"/></span>
+            GXE Government
+          </a>
+          <p class="muted">Official website of the Great Xanarcica Empire — news, services, and citizen portals.</p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer quick links">
+          <h4>Quick links</h4>
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/departments.html">Departments</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/dashboard.html">Citizen portal</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <address>Ministry of Information<br><a href="mailto:contact@gxe.gov">contact@gxe.gov</a></address>
+          <p><a href="/contact.html">Contact form</a></p>
+        </div>
+
+        <div class="footer-newsletter">
+          <h4>Stay informed</h4>
+          <form id="newsletterForm" class="newsletter-form" action="#" method="post" onsubmit="event.preventDefault(); alert('Subscribed (demo)');">
+            <label for="newsletterEmail" class="visually-hidden">Email address</label>
+            <input id="newsletterEmail" type="email" placeholder="you@domain" required />
+            <button class="btn-primary" type="submit">Subscribe</button>
+          </form>
+          <div class="social" aria-label="Social links">
+            <a href="#" class="social-link" aria-label="Follow on X" title="Follow on X">X</a>
+            <a href="#" class="social-link" aria-label="Follow on Mastodon" title="Follow on Mastodon">M</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <small>&copy; <span id="year"></span> Government of GXE — <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></small>
+      </div>
+    </footer>
+    <script src="/assets/js/site.js"></script>
+  </body>
+</html>

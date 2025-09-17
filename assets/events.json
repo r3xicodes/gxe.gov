@@ -1,0 +1,29 @@
+[
+  {
+    "id": "evt-1",
+    "title": "National Unity Day Parade",
+    "date": "2025-10-05",
+    "time": "10:00",
+    "location": "Imperial Capital — Grand Avenue",
+    "excerpt": "Join the parade celebrating the unity of GXE and its provinces. Music, ceremonies, and public addresses.",
+    "url": "/events/unity-day.html"
+  },
+  {
+    "id": "evt-2",
+    "title": "Civic Volunteering Weekend",
+    "date": "2025-10-18",
+    "time": "09:00",
+    "location": "Regional centers — nationwide",
+    "excerpt": "Local brigades will restore community centers and plant trees. Sign up via Get Involved.",
+    "url": "/events/volunteer-weekend.html"
+  },
+  {
+    "id": "evt-3",
+    "title": "Youth Innovation Summit",
+    "date": "2025-11-02",
+    "time": "09:30",
+    "location": "Assembly Hall — East Wing",
+    "excerpt": "A forum for young leaders to present public projects and request mentorship/funding.",
+    "url": "/events/youth-summit.html"
+  }
+]

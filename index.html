@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>GXE Government</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" href="/assets/images/emblem.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/images/emblem.png">
+  <link rel="manifest" href="/assets/manifest.json">
+  <link rel="manifest" href="/assets/manifest.json">
+  <meta name="theme-color" content="#0b3d91">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" role="banner">
+      <div class="container">
+  <div class="brand-with-emblem"><span class="site-emblem-img small" role="img" aria-label="GXE emblem"><img src="/assets/images/emblem.png" alt="GXE emblem"/></span><a class="brand" href="/">GXE Government</a></div>
+        <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/departments.html">Departments</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="top-actions">
+          <a class="btn-ghost" href="/login.html" id="signInBtn">Sign in</a>
+          <a class="btn-primary" href="/login.html" id="signUpBtn">Sign up</a>
+          <a id="accountLink" class="btn-ghost" href="/dashboard.html" title="Citizen portal">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.4" />
+              <path d="M4 20c0-3.3 2.7-6 6-6h4c3.3 0 6 2.7 6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="visually-hidden">Citizen portal</span>
+          </a>
+            <button id="navToggle" aria-expanded="false" aria-controls="siteOverlay" aria-label="Open menu"><span class="hamburger-lines" aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Full screen overlay menu (controlled by hamburger) -->
+    <div id="siteOverlay" class="site-overlay" aria-hidden="true">
+      <div class="overlay-inner">
+          <button id="overlayClose" class="overlay-close" aria-label="Close menu">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        <nav class="overlay-nav" aria-label="Overlay navigation">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/departments.html">Departments</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/dashboard.html">Citizen portal</a></li>
+          </ul>
+        </nav>
+
+        <section class="overlay-settings" aria-labelledby="settingsHeading">
+          <h3 id="settingsHeading">UI Settings</h3>
+          <div class="widgets">
+            <div class="widget widget-theme" id="widgetTheme" role="region" aria-label="Theme selector">
+              <h4>Theme</h4>
+              <div class="theme-settings">
+                <label for="themeSelect">Appearance</label>
+                <select id="themeSelect" aria-label="Select theme">
+                  <option value="auto">Auto</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="midnight">Midnight</option>
+                  <option value="colorblind">Colorblind</option>
+                </select>
+              </div>
+              <div class="motion-settings">
+                <label for="reduceMotionToggle">Reduce UI motion &amp; effects</label>
+                <div><input type="checkbox" id="reduceMotionToggle" aria-label="Reduce UI motion and effects" /> <small class="muted">Turn off animated glows and motion</small></div>
+              </div>
+            </div>
+
+            <div class="widget widget-clocks" id="widgetClocks" role="region" aria-label="Clocks">
+              <h4>Clocks</h4>
+              <div class="clock-controls">
+                <input id="timezoneInput" list="timezoneList" placeholder="e.g. Europe/London" aria-label="Timezone" />
+                <datalist id="timezoneList">
+                  <option>UTC</option>
+                  <option>Europe/London</option>
+                  <option>Europe/Paris</option>
+                  <option>America/New_York</option>
+                  <option>America/Los_Angeles</option>
+                  <option>Asia/Tokyo</option>
+                  <option>Australia/Sydney</option>
+                </datalist>
+                <button id="addClockBtn" class="btn-ghost">Add</button>
+              </div>
+              <ul id="clocksList" class="clocks-list"></ul>
+            </div>
+
+            <div class="widget widget-calendar" id="widgetCalendar" role="region" aria-label="Calendar">
+              <h4>Calendar</h4>
+              <div id="miniCalendar" class="mini-calendar" role="grid" aria-label="Month calendar"></div>
+            </div>
+
+            <div class="widget widget-weather" id="widgetWeather" role="region" aria-label="Weather">
+              <h4>Weather</h4>
+              <div id="weatherBox">Loading weather…</div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <main id="main" class="container" role="main">
+      <section class="hero hero-fullbleed" aria-roledescription="carousel">
+        <div class="slideshow" id="slideshow" aria-live="polite" tabindex="0" aria-label="Homepage slideshow">
+          <div id="slideshowStatus" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+          <!-- Slide 1: Travel & Tourism -->
+          <div class="slide active" data-index="0" aria-hidden="false">
+            <div class="slide-bg" style="background-image: url('/assets/images/slide1.jpg')" aria-hidden="true"></div>
+            <div class="slide-content">
+              <div class="slide-copy">
+                <h2>Explore GXE — Travel & Tourism</h2>
+                <p class="lede">Discover iconic sites, cultural festivals, and scenic regions across our Empire.</p>
+                <p><a class="btn-primary" href="/travel.html">Plan your visit</a></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2: STOP ALIEN DEPORTATION (left-side image) -->
+          <div class="slide" data-index="1" aria-hidden="true">
+            <div class="slide-bg gradient-dark" aria-hidden="true"></div>
+            <div class="slide-content slide-split">
+              <div class="slide-left">
+                <img src="/assets/images/Alien%20Immigration.jpg" alt="Protest poster: Stop Alien Deportation" />
+              </div>
+              <div class="slide-right">
+                <h2 class="danger">STOP ALIEN DEPORTATION</h2>
+                <p class="lede">Protect human rights and ensure fair, humane treatment for all residents.</p>
+                <p><a class="btn-primary" href="/stop-alien-deportation.html">Learn our stance</a></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3: Diversity message -->
+          <div class="slide" data-index="2" aria-hidden="true">
+            <div class="slide-bg" style="background-image: url('/assets/images/slide2.jpg')" aria-hidden="true"></div>
+            <div class="slide-content">
+              <div class="slide-copy">
+                <h2>Diversity is what we strive for</h2>
+                <p class="lede">Our strength lies in the many cultures, ideas, and people who call GXE home.</p>
+                <p><a class="btn-primary" href="/diversity.html">Our programs</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slideshow-controls">
+          <button id="prevSlide" aria-label="Previous slide">‹</button>
+          <button id="nextSlide" aria-label="Next slide">›</button>
+        </div>
+      </section>
+
+      
+
+      <section class="cards" aria-labelledby="cardsHeading">
+        <h2 id="cardsHeading" class="visually-hidden">Primary links</h2>
+        <article class="card">
+          <h3>News & Announcements</h3>
+          <p>Read official proclamations from the Crown, Assembly updates, and Maid Corps dispatches.</p>
+          <p><a class="btn" href="/about.html">Learn more</a></p>
+        </article>
+        <article class="card">
+          <h3>Departments</h3>
+          <p>Ministries and bureaus that administer finance, health, defense, and colonial governance.</p>
+          <p><a class="btn" href="/departments.html">View departments</a></p>
+        </article>
+        <article class="card">
+          <h3>Services</h3>
+          <p>Access services, forms, and contact points across the Empire and its realms.</p>
+          <p><a class="btn" href="/contact.html">Get in touch</a></p>
+        </article>
+      </section>
+
+      <!-- News feed -->
+      <section aria-labelledby="newsHeading" class="news-feed container">
+        <h2 id="newsHeading">Latest News</h2>
+        <div id="newsList" class="news-list">Loading news…</div>
+      </section>
+
+      <!-- Homepage poll (interactive) -->
+      <section id="homePoll" class="container poll" aria-labelledby="pollHeading">
+        <h2 id="pollHeading">Have your say</h2>
+        <p class="poll-lede">What's most important to you about the future of GXE? Cast a quick vote and see results.</p>
+        <form id="pollForm" class="poll-form" aria-describedby="pollDesc">
+          <fieldset>
+            <legend class="visually-hidden">What's important</legend>
+            <div id="pollOptions" class="poll-options" role="radiogroup" aria-label="Poll options">
+              <!-- options injected by JS -->
+            </div>
+          </fieldset>
+          <div class="poll-actions">
+            <button id="voteBtn" class="btn-primary" type="submit">Vote</button>
+            <button id="viewResultsBtn" type="button" class="btn-ghost">View results</button>
+          </div>
+        </form>
+        <div id="pollResults" class="poll-results" aria-live="polite" hidden>
+          <!-- results injected by JS -->
+        </div>
+      </section>
+
+      <!-- Events widget -->
+      <section id="events" class="container events" aria-labelledby="eventsHeading">
+        <h2 id="eventsHeading">Upcoming events</h2>
+        <p class="muted">Community and national events you may want to attend.</p>
+        <div id="eventsList" class="events-list">Loading events…</div>
+      </section>
+
+      <!-- Military ad banner -->
+      <section class="promo container">
+        <a href="https://example-military.example.org" class="military-ad" target="_blank" rel="noopener noreferrer" aria-label="Visit the Imperial Recruitment page">
+          <div class="ad-content">
+            <div class="ad-title">Imperial Forces Recruitment</div>
+            <div class="ad-sub">Serve with honor — learn more about joining the Imperial Armed Forces</div>
+          </div>
+        </a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/">
+            <span class="site-emblem-img" role="img" aria-label="GXE emblem"><img src="/assets/images/emblem.png" alt="GXE emblem"/></span>
+            GXE Government
+          </a>
+          <p class="muted">Official website of the Great Xanarcica Empire — news, services, and citizen portals.</p>
+        </div>
+
+        <nav class="footer-links" aria-label="Footer quick links">
+          <h4>Quick links</h4>
+          <ul>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/departments.html">Departments</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/dashboard.html">Citizen portal</a></li>
+          </ul>
+        </nav>
+
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <address>Ministry of Information<br><a href="mailto:contact@gxe.gov">contact@gxe.gov</a></address>
+          <p><a href="/contact.html">Contact form</a></p>
+        </div>
+
+        <div class="footer-newsletter">
+          <h4>Stay informed</h4>
+          <form id="newsletterForm" class="newsletter-form" action="#" method="post" onsubmit="event.preventDefault(); alert('Subscribed (demo)');">
+            <label for="newsletterEmail" class="visually-hidden">Email address</label>
+            <input id="newsletterEmail" type="email" placeholder="you@domain" required />
+            <button class="btn-primary" type="submit">Subscribe</button>
+          </form>
+          <div class="social" aria-label="Social links">
+            <a href="#" class="social-link" aria-label="Follow on X" title="Follow on X">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6.5c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.5-1.8-.7.4-1.5.7-2.3.8C16.4 5 15.5 4.5 14.5 4.5c-1.8 0-3.2 1.5-3.2 3.4 0 .3 0 .6.1.9-2.7-.1-5.1-1.5-6.7-3.6-.3.6-.4 1.2-.4 1.9 0 1.2.6 2.3 1.6 2.9-.5 0-1-.1-1.4-.4v.1c0 1.8 1.3 3.3 3 3.6-.3.1-.7.1-1 .1-.3 0-.5 0-.8-.1.5 1.6 2 2.7 3.8 2.8-1.3 1-2.9 1.5-4.5 1.5-.3 0-.6 0-.9-.1C7.8 20.2 9.6 21 11.6 21c7 0 10.8-6 10.8-11.2v-.5c.8-.6 1.5-1.3 2-2.1-.8.4-1.6.7-2.4.8z" fill="currentColor"/></svg>
+            </a>
+            <a href="#" class="social-link" aria-label="Follow on Mastodon" title="Follow on Mastodon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C7.6 2 4 5 4 9.1v3.2C4 18 7 21 12 21s8-3 8-8.7V9.1C20 5 16.4 2 12 2z" fill="currentColor"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer-bottom">
+        <small>&copy; <span id="year"></span> Government of GXE — <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></small>
+      </div>
+    </footer>
+
+    <script>
+      // Attempt to load optional Firebase config (assets/js/firebase-config.js) if present
+      (function(){
+        var s = document.createElement('script'); s.src = '/assets/js/firebase-config.js'; s.async = false; s.onerror = function(){/* no config present */}; document.head.appendChild(s);
+      })();
+    </script>
+    <script src="/assets/js/site.js"></script>
+  </body>
+</html>

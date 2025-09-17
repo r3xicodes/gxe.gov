@@ -1,0 +1,72 @@
+name: PR Preview to gh-pages (previews/*)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+permissions:
+  contents: write
+
+jobs:
+  preview:
+    if: ${{ github.event.action != 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build preview content (no build step)
+        run: |
+          mkdir -p preview_output
+          cp -R ./* preview_output/ || true
+
+      - name: Setup git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch gh-pages branch
+        run: |
+          git fetch origin gh-pages:gh-pages || git branch gh-pages
+
+      - name: Prepare gh-pages worktree
+        run: |
+          rm -rf gh-pages || true
+          git worktree add gh-pages origin/gh-pages || (git checkout --orphan gh-pages && git rm -rf . || true; mkdir gh-pages)
+
+      - name: Copy preview into gh-pages/previews/pr-<number>
+        env:
+          PR_NUM: ${{ github.event.number }}
+        run: |
+          mkdir -p gh-pages/previews/pr-${PR_NUM}
+          rsync -a --delete preview_output/ gh-pages/previews/pr-${PR_NUM}/
+          # add a README so people browsing the branch know these are previews
+          echo "Preview for PR #${PR_NUM}" > gh-pages/previews/pr-${PR_NUM}/README.txt
+
+      - name: Commit and push previews
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd gh-pages
+          git add previews/pr-${PR_NUM}
+          if git diff --cached --quiet; then echo "No changes to preview"; else git commit -m "[preview] update PR ${PR_NUM} preview"; git push origin gh-pages; fi
+
+  remove-preview:
+    if: ${{ github.event.action == 'closed' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: gh-pages
+
+      - name: Remove preview folder for closed PR
+        env:
+          PR_NUM: ${{ github.event.number }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          if [ -d "previews/pr-${PR_NUM}" ]; then git rm -rf "previews/pr-${PR_NUM}" || true; git commit -m "[preview] remove PR ${PR_NUM} preview" || echo "nothing to commit"; git push origin gh-pages; else echo "no preview folder to remove"; fi

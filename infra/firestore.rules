@@ -1,0 +1,24 @@
+// Firestore rules example for a user approval workflow.
+// Important: Tailor these rules to your project's needs and test carefully.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // User documents
+    match /users/{userId} {
+      // Allow authenticated users to create their own user doc
+      allow create: if request.auth != null && request.auth.uid == userId;
+      // Allow users to read their own doc
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Allow users to update only a few fields of their own doc (optional)
+      allow update: if request.auth != null && request.auth.uid == userId
+                    && (request.resource.data.keys().hasOnly(['displayName']) || request.resource.data.keys().hasAll(['displayName']));
+      // Allow admins to update status and other admin-only fields
+      allow update: if request.auth.token.admin == true;
+      // Allow admins to list/query users
+      allow list: if request.auth.token.admin == true;
+      // Deny everything else
+    }
+
+    // You can add other collections and rules here
+  }
+}

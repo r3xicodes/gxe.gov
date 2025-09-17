@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin — Approve Users</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" href="/assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/assets/images/favicon-32.png" sizes="32x32">
+  <link rel="icon" href="/assets/images/favicon-16.png" sizes="16x16">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="manifest" href="/assets/manifest.json">
+  <meta name="theme-color" content="#0b3d91">
+    <style>
+      .admin-panel{padding:1rem}
+      .user-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem;border-bottom:1px solid rgba(255,255,255,0.02)}
+      .user-meta{font-size:.95rem}
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="brand-with-emblem"><span class="site-emblem-img small" role="img" aria-label="GXE emblem"><img src="/assets/images/emblem.png" alt="GXE emblem"/></span><a class="brand" href="/">GXE Government</a></div>
+      <nav id="mainNav" class="main-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/departments.html">Departments</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="top-actions">
+        <a class="btn-ghost" href="/login.html" id="signInBtn">Sign in</a>
+        <a class="btn-primary" href="/login.html" id="signUpBtn">Sign up</a>
+        <a id="accountLink" class="btn-ghost" href="/dashboard.html" title="Citizen portal">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.4" />
+            <path d="M4 20c0-3.3 2.7-6 6-6h4c3.3 0 6 2.7 6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="visually-hidden">Citizen portal</span>
+        </a>
+        <button id="navToggle" aria-expanded="false" aria-controls="siteOverlay" aria-label="Open menu"><span class="hamburger-lines" aria-hidden="true"></span></button>
+      </div>
+    </div>
+  </header>
+    <div id="siteOverlay" class="site-overlay" aria-hidden="true">
+      <div class="overlay-inner">
+        <button id="overlayClose" class="overlay-close" aria-label="Close menu">✕</button>
+        <nav class="overlay-nav" aria-label="Overlay navigation">
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about.html">About</a></li>
+            <li><a href="/departments.html">Departments</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+            <li><a href="/dashboard.html">Citizen portal</a></li>
+          </ul>
+        </nav>
+        <section class="overlay-settings" aria-labelledby="settingsHeading">
+          <h3 id="settingsHeading">UI Settings</h3>
+          <div class="widgets">
+            <div class="widget widget-theme" role="region" aria-label="Theme selector">
+              <h4>Theme</h4>
+              <div class="theme-settings">
+                <label for="themeSelect">Appearance</label>
+                <select id="themeSelect" aria-label="Select theme">
+                  <option value="auto">Auto</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                  <option value="midnight">Midnight</option>
+                  <option value="colorblind">Colorblind</option>
+                </select>
+              </div>
+              <div class="motion-settings">
+                <label for="reduceMotionToggle">Reduce UI motion &amp; effects</label>
+                <div><input type="checkbox" id="reduceMotionToggle" aria-label="Reduce UI motion and effects" /> <small class="muted">Turn off animated glows and motion</small></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <main class="container">
+      <h1>Admin — Approve Users</h1>
+      <p class="muted">This admin UI requires a Firebase project and appropriate security rules. Only use this on a secure admin account. The page lists users in Firestore with status 'pending' and allows approving them.</p>
+      <div id="adminArea">
+        <p>Loading…</p>
+      </div>
+    </main>
+    <script src="/assets/js/site.js"></script>
+    <script>
+      // admin client: requires firebase + firestore
+      (function(){
+        const cfg = window.__GXE_FIREBASE_CONFIG;
+        if(!cfg){ document.getElementById('adminArea').innerHTML = '<p>No Firebase config found. Add your config to enable admin approvals.</p>'; return; }
+        const s1 = document.createElement('script'); s1.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'; document.head.appendChild(s1);
+        const s2 = document.createElement('script'); s2.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js'; document.head.appendChild(s2);
+        const s3 = document.createElement('script'); s3.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js'; document.head.appendChild(s3);
+        s3.onload = ()=>{
+          try{ firebase.initializeApp(cfg); const auth = firebase.auth(); const db = firebase.firestore();
+            auth.onAuthStateChanged(user=>{
+              if(!user){ document.getElementById('adminArea').innerHTML = `<p>Please sign in as an admin: <input id="admEmail" placeholder="email"><input id="admPass" placeholder="password" type="password"><button id="admLogin">Sign in</button></p>`; document.getElementById('admLogin').addEventListener('click', ()=>{ const em=document.getElementById('admEmail').value; const pw=document.getElementById('admPass').value; auth.signInWithEmailAndPassword(em,pw).then(()=>loadPending()).catch(e=>alert(e.message)) }); return; }
+              // user signed in
+              loadPending();
+            });
+            function loadPending(){
+              document.getElementById('adminArea').innerHTML = '<p>Loading pending users…</p>';
+              db.collection('users').where('status','==','pending').get().then(qs=>{
+                if(qs.empty){ document.getElementById('adminArea').innerHTML = '<p>No pending users.</p>'; return; }
+                const list = document.createElement('div'); list.className='admin-panel';
+                qs.forEach(doc=>{
+                  const data = doc.data(); const row = document.createElement('div'); row.className='user-row';
+                  const nation = data.nationName ? `<div class="muted">Nation: ${data.nationName}</div>` : '';
+                  row.innerHTML = `<div class="user-meta"><strong>${data.displayName||data.email}</strong><div class="muted">${data.email}</div>${nation}</div><div><button class="approve">Approve</button> <button class="reject">Reject</button></div>`;
+                  row.querySelector('.approve').addEventListener('click', ()=>{
+                    if(window.firebase && firebase.functions){
+                      const fn = firebase.functions().httpsCallable('approveUser');
+                      fn({uid: doc.id, approve: true}).then(()=> row.remove()).catch(e=>alert('Approval failed: '+e.message));
+                    } else {
+                      db.collection('users').doc(doc.id).update({status:'approved'}).then(()=>{ row.remove(); });
+                    }
+                  });
+                  row.querySelector('.reject').addEventListener('click', ()=>{
+                    if(window.firebase && firebase.functions){
+                      const fn = firebase.functions().httpsCallable('approveUser');
+                      fn({uid: doc.id, approve: false}).then(()=> row.remove()).catch(e=>alert('Reject failed: '+e.message));
+                    } else {
+                      db.collection('users').doc(doc.id).update({status:'rejected'}).then(()=>{ row.remove(); });
+                    }
+                  });
+                  list.appendChild(row);
+                });
+                document.getElementById('adminArea').innerHTML = ''; document.getElementById('adminArea').appendChild(list);
+              }).catch(e=>{ document.getElementById('adminArea').innerHTML = '<p>Error loading pending users: '+e.message+'</p>'; });
+            }
+          }catch(e){ document.getElementById('adminArea').innerHTML = '<p>Init error: '+e.message+'</p>'; }
+        };
+      })();
+    </script>
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <span class="site-emblem-img" role="img" aria-label="GXE emblem"><img src="/assets/images/emblem.png" alt="GXE emblem"/></span>
+          GXE Government
+        </a>
+        <p class="muted">Official website of the Great Xanarcica Empire — news, services, and citizen portals.</p>
+      </div>
+
+      <nav class="footer-links" aria-label="Footer quick links">
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/departments.html">Departments</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+          <li><a href="/dashboard.html">Citizen portal</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <address>Ministry of Information<br><a href="mailto:contact@gxe.gov">contact@gxe.gov</a></address>
+        <p><a href="/contact.html">Contact form</a></p>
+      </div>
+
+      <div class="footer-newsletter">
+        <h4>Stay informed</h4>
+        <form id="newsletterForm" class="newsletter-form" action="#" method="post" onsubmit="event.preventDefault(); alert('Subscribed (demo)');">
+          <label for="newsletterEmail" class="visually-hidden">Email address</label>
+          <input id="newsletterEmail" type="email" placeholder="you@domain" required />
+          <button class="btn-primary" type="submit">Subscribe</button>
+        </form>
+        <div class="social" aria-label="Social links">
+          <a href="#" class="social-link" aria-label="Follow on X" title="Follow on X">X</a>
+          <a href="#" class="social-link" aria-label="Follow on Mastodon" title="Follow on Mastodon">M</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <small>&copy; <span id="year"></span> Government of GXE — <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></small>
+    </div>
+  </footer>
+  </body>
+</html>

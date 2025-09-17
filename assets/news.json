@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Imperial Assembly announces new infrastructure program",
+    "date": "2025-09-15",
+    "excerpt": "The Assembly has approved a multi-year plan to expand port facilities across the western territories.",
+    "url": "/about.html#infrastructure",
+    "category": "announcements"
+  },
+  {
+    "id": "2",
+    "title": "Maid Corps conducts ceremonial parade in Xaiar capital",
+    "date": "2025-09-12",
+    "excerpt": "The Maid Corps led a march honoring veterans and showcasing new regalia and formations.",
+    "url": "/news/maid-corps-parade.html",
+    "category": "events"
+  },
+  {
+    "id": "3",
+    "title": "Public health advisory: seasonal inoculation schedules",
+    "date": "2025-09-10",
+    "excerpt": "Citizens are encouraged to consult regional clinics for the updated inoculation timetable.",
+    "url": "/departments.html#health",
+    "category": "health"
+  }
+]
