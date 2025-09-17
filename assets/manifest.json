@@ -1,13 +1,13 @@
 {
   "name": "GXE Government",
   "short_name": "GXE",
-  "start_url": "/",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0b3d91",
   "icons": [
     {
-      "src": "/assets/images/emblem.png",
+      "src": "assets/images/emblem.png",
       "sizes": "180x180 32x32 16x16",
       "type": "image/png"
     }
