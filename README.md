@@ -58,7 +58,7 @@ If you want real accounts with an approval workflow, follow these steps.
   - Authentication → Sign-in method → Email/Password
   - Firestore Database (start in test mode while developing, but switch to secured rules before production)
 
-2. Copy `assets/js/firebase-config.js.template` to `assets/js/firebase-config.js` and fill in your project's config values. The site attempts to load `/assets/js/firebase-config.js` automatically.
+2. Copy `assets/js/firebase-config.js.template` to `assets/js/firebase-config.js` and fill in your project's config values. The site attempts to load `assets/js/firebase-config.js` automatically.
 
 3. Deploy Firestore security rules. A recommended example is in `infra/firestore.rules`.
   - Using the Firebase CLI:

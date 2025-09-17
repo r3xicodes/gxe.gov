@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   renderMiniCalendar();
 
-  /* NEWS FEED: fetch /assets/news.json and render simple accessible feed on home page */
+  /* NEWS FEED: fetch assets/news.json and render simple accessible feed on home page */
   function loadNewsFeed(){
     const listEl = document.getElementById('newsList');
     if(!listEl) return;
