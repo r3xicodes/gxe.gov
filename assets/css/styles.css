@@ -333,14 +333,14 @@ body.theme-light .btn-ghost{border-color:rgba(11,23,32,0.08);color:#0b1720}
 /* focus outline for overlay interactive elements */
 
 /* Emblem and flag utilities */
-.site-emblem{width:48px;height:48px;background-image:url('/assets/images/emblem.png');background-size:contain;background-repeat:no-repeat;background-position:center;margin-right:.6rem;flex:0 0 48px}
+.site-emblem{width:48px;height:48px;background-image:url('../images/emblem.png');background-size:contain;background-repeat:no-repeat;background-position:center;margin-right:.6rem;flex:0 0 48px}
 .site-emblem.small{width:28px;height:28px;flex:0 0 28px;margin-right:.45rem}
 /* New: prefer inline <img> for emblem for better accessibility; fallback to background-image if CSS-only emblem is present */
 .site-emblem-img{display:inline-block;flex:0 0 48px;margin-right:.6rem}
 .site-emblem-img img{display:block;width:48px;height:48px;object-fit:contain}
 .site-emblem-img.small img{width:28px;height:28px}
 .brand-with-emblem{display:flex;align-items:center}
-.site-flag{background-image:url('/assets/images/flag.png');background-size:cover;background-position:center;border-radius:12px;min-height:220px}
+.site-flag{background-image:url('../images/flag.png');background-size:cover;background-position:center;border-radius:12px;min-height:220px}
 .hero.site-flag .slideshow{background:transparent}
 .site-overlay :focus{outline:3px solid rgba(104,166,255,0.18);outline-offset:2px}
 

@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded',function(){
   function loadNewsFeed(){
     const listEl = document.getElementById('newsList');
     if(!listEl) return;
-    fetch('/assets/news.json').then(r=>{
+  fetch('assets/news.json').then(r=>{
       if(!r.ok) throw new Error('news fetch failed');
       return r.json();
     }).then(items=>{
@@ -566,7 +566,7 @@ document.addEventListener('DOMContentLoaded',function(){
   /* EVENTS WIDGET: load events.json and render on homepage and dashboard */
   (function(){
     function renderEventCard(ev){ const d = document.createElement('article'); d.className='event-card card'; d.innerHTML = `<h4><a href="${ev.url || '#'}">${ev.title}</a></h4><div class="muted">${ev.date} ${ev.time} — ${ev.location}</div><p>${ev.excerpt}</p>`; return d; }
-    function loadEvents(){ fetch('/assets/events.json').then(r=>{ if(!r.ok) throw new Error('events fetch failed'); return r.json(); }).then(items=>{
+  function loadEvents(){ fetch('assets/events.json').then(r=>{ if(!r.ok) throw new Error('events fetch failed'); return r.json(); }).then(items=>{
         // homepage
         const list = document.getElementById('eventsList'); if(list){ list.innerHTML=''; if(!items || !items.length) { list.innerHTML = '<p>No upcoming events.</p>'; } else { items.slice(0,6).forEach(ev=> list.appendChild(renderEventCard(ev))); } }
         // dashboard
