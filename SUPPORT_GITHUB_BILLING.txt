@@ -1,0 +1,22 @@
+Subject: Account locked for Actions — unexpected billing block
+
+Hello GitHub Support,
+
+Repository: r3xicodes/gxe.gov
+GitHub username: r3xicodes
+Date/Time (UTC): 2025-09-17
+
+Description:
+My repository's GitHub Actions runs fail immediately with the annotation: "The job was not started because your account is locked due to a billing issue." I did not intentionally add a paid plan or expect charges. I verified repository contents are static and don't require billing. I attached a screenshot showing the failed Actions run.
+
+Please investigate and advise why the account/org was locked for billing. If there is a required action on my side (confirm payment method, reduce usage, or dispute a charge), please provide the steps and exact billing notices you used.
+
+Requested outcome:
+- Re-enable Actions for my account (or clarify required steps to remove the billing lock).
+- If there was suspicious usage or a mistaken flag on my account, please outline what information you need to resolve it.
+
+Thanks,
+
+r3xicodes
+
+(Attach screenshot and any billing/notification emails you received.)
