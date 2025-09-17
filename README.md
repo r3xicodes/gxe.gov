@@ -242,3 +242,34 @@ The site uses a few localStorage keys for demo preferences and state. These are 
 - `gxe_reduce_ui` — reduce UI/motion flag (set to `'1'` when enabled)
 
 If you'd like me to wire slide editing to a small admin JSON file (for non-technical editors) or add an admin UI to update slide text, I can scaffold that next.
+
+How to commit & push the changes made by the assistant
+---------------------------------------------------
+
+Run these commands in PowerShell from the project root to stage, commit, and push the changes to the `main` branch:
+
+```powershell
+git add -A
+git commit -m "Normalize asset and page links for project hosting; fix HTML structure; add quick search overlay"
+git push origin main
+```
+
+After pushing, visit your repository on GitHub and confirm the Actions workflow (if present) runs and that the Pages site is published. If you prefer a pull request workflow, push to a feature branch and open a PR instead.
+
+Local smoke test (quick verification)
+------------------------------------
+
+To run a local static server (Python) and verify the site renders correctly:
+
+```powershell
+# from project root
+python -m http.server 8000
+# then open http://localhost:8000/index.html in your browser
+```
+
+Checks to perform:
+- Confirm CSS loads and pages are styled.
+- Open a few pages (About, Travel, Contact) and ensure images and scripts load.
+- Open quick-search with Ctrl/Cmd+K or `/` and search for a term present in `assets/news.json` or the page content.
+
+Once verified, push the changes using the commit/push commands in the README or `CHANGES.md` to publish on GitHub Pages.

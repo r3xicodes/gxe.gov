@@ -700,5 +700,146 @@ document.addEventListener('DOMContentLoaded',function(){
       });
     }
   }
+
+  /* QUICK SEARCH: lightweight client-side search overlay
+     - injects a search button into the header .top-actions
+     - searches: page links/headings + assets/news.json + assets/events.json
+     - keyboard accessible: ArrowUp/ArrowDown to navigate, Enter to open, Esc to close
+  */
+  (function(){
+    const SEARCH_OVERLAY_ID = 'quickSearchOverlay';
+    const SEARCH_BTN_ID = 'quickSearchBtn';
+    const MAX_RESULTS = 12;
+
+    function createOverlay(){
+      if(document.getElementById(SEARCH_OVERLAY_ID)) return;
+      const ov = document.createElement('div'); ov.id = SEARCH_OVERLAY_ID; ov.className = 'quick-search-overlay'; ov.setAttribute('aria-hidden','true');
+      ov.innerHTML = `
+        <div class="quick-search-panel" role="dialog" aria-modal="true" aria-label="Quick search">
+          <button class="qs-close" aria-label="Close search">✕</button>
+          <div class="qs-input-wrap">
+            <input id="qsInput" class="qs-input" type="search" placeholder="Search site, news, and events..." aria-label="Search site" autocomplete="off" />
+          </div>
+          <div id="qsResults" class="qs-results" role="listbox" aria-label="Search results"></div>
+          <div class="qs-hint muted">Tip: use ↑/↓ to navigate results and Enter to open. Esc to close.</div>
+        </div>
+      `;
+      document.body.appendChild(ov);
+
+      // wire close and backdrop
+      const closeBtn = ov.querySelector('.qs-close');
+      closeBtn && closeBtn.addEventListener('click', closeSearch);
+      ov.addEventListener('click', (e)=>{ if(e.target === ov) closeSearch(); });
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape'){
+          const o = document.getElementById(SEARCH_OVERLAY_ID);
+          if(o && o.getAttribute('aria-hidden') === 'false') { closeSearch(); }
+        }
+      });
+
+      const input = document.getElementById('qsInput');
+      const resultsRoot = document.getElementById('qsResults');
+      let results = [];
+      let focused = -1;
+
+      function renderResults(arr){
+        results = arr.slice(0, MAX_RESULTS);
+        focused = -1;
+        resultsRoot.innerHTML = '';
+        if(results.length === 0){ resultsRoot.innerHTML = '<div class="qs-empty">No results</div>'; return; }
+        results.forEach((r, i)=>{
+          const row = document.createElement('div'); row.className = 'qs-item'; row.setAttribute('role','option'); row.setAttribute('data-index', String(i));
+          row.tabIndex = -1;
+          row.innerHTML = `<a class="qs-link" href="${r.url}"><strong class="qs-title">${escapeHtml(r.title || r.url)}</strong><div class="qs-excerpt">${escapeHtml(r.excerpt || r.source || '')}</div></a>`;
+          row.addEventListener('click', (ev)=>{ ev.preventDefault(); openResult(i); });
+          resultsRoot.appendChild(row);
+        });
+      }
+
+      function focusResult(n){
+        const items = resultsRoot.querySelectorAll('.qs-item');
+        if(items.length === 0) return;
+        if(n < 0) n = 0; if(n >= items.length) n = items.length - 1;
+        if(focused >= 0 && items[focused]) items[focused].classList.remove('focused');
+        focused = n; items[focused].classList.add('focused');
+        // ensure visible
+        items[focused].scrollIntoView({block:'nearest'});
+      }
+
+      function openResult(i){
+        const r = results[i]; if(!r) return; // open in same tab for same-origin; otherwise new tab
+        try{ const u = new URL(r.url, window.location.href); if(u.origin !== window.location.origin) window.open(r.url,'_blank','noopener'); else window.location.href = r.url; }catch(e){ window.location.href = r.url; }
+      }
+
+      // keyboard handling
+      input.addEventListener('keydown', (e)=>{
+        const items = resultsRoot.querySelectorAll('.qs-item');
+        if(e.key === 'ArrowDown'){ e.preventDefault(); if(items.length) focusResult(Math.min(focused+1, items.length-1)); }
+        else if(e.key === 'ArrowUp'){ e.preventDefault(); if(items.length) focusResult(Math.max(focused-1, 0)); }
+        else if(e.key === 'Enter'){ e.preventDefault(); if(focused >=0) openResult(focused); else { if(results.length && results[0]) openResult(0); } }
+      });
+
+      // debounce helper
+      function debounce(fn, wait){ let t=null; return function(...args){ clearTimeout(t); t=setTimeout(()=>fn.apply(this,args), wait); }; }
+
+      const doSearch = debounce(async function(q){
+        const qn = (q || '').trim().toLowerCase();
+        if(!qn){ renderResults([]); return; }
+        const found = [];
+
+        // 1) Search visible page links and headings inside <main>
+        try{
+          const scope = document.querySelector('main') || document.body;
+          const linkEls = Array.from(scope.querySelectorAll('a[href]'));
+          linkEls.forEach(a=>{
+            const t = (a.textContent || '').trim(); const h = a.getAttribute('href') || '';
+            const scoreText = t.toLowerCase().includes(qn);
+            const scoreHref = h.toLowerCase().includes(qn);
+            if(scoreText || scoreHref){ found.push({title: t || h, excerpt: (a.closest('article') ? (a.closest('article').querySelector('p') && a.closest('article').querySelector('p').textContent) : '' ) || '', url: h, source: 'Page'}); }
+          });
+          // headings
+          const heads = Array.from(scope.querySelectorAll('h1,h2,h3')); heads.forEach(h=>{ const t = (h.textContent||'').trim(); if(t.toLowerCase().includes(qn)){ const anc = h.querySelector('a') && h.querySelector('a').getAttribute('href'); found.push({title: t, excerpt:'', url: anc || '#', source:'Page heading'}); } });
+        }catch(e){ console.warn('Quick search page scan failed', e); }
+
+        // 2) Search news.json and events.json
+        try{
+          const [newsR, eventsR] = await Promise.allSettled([fetch('assets/news.json'), fetch('assets/events.json')]);
+          if(newsR.status === 'fulfilled' && newsR.value.ok){ try{ const items = await newsR.value.json(); (items||[]).forEach(it=>{ const hay = ((it.title||'')+' '+(it.excerpt||'')).toLowerCase(); if(hay.includes(qn)) found.push({title: it.title, excerpt: it.excerpt, url: it.url || 'about.html', source: 'News'}); }); }catch(e){} }
+          if(eventsR.status === 'fulfilled' && eventsR.value.ok){ try{ const items = await eventsR.value.json(); (items||[]).forEach(it=>{ const hay = ((it.title||'')+' '+(it.excerpt||'')).toLowerCase(); if(hay.includes(qn)) found.push({title: it.title, excerpt: it.excerpt, url: it.url || 'events.html', source: 'Event'}); }); }catch(e){} }
+        }catch(e){ /* ignore fetch errors */ }
+
+        // dedupe by url then title
+        const seen = new Set(); const dedup = [];
+        for(const r of found){ const key = (r.url||'') + '||' + (r.title||''); if(seen.has(key)) continue; seen.add(key); dedup.push(r); }
+        renderResults(dedup);
+      }, 220);
+
+      input.addEventListener('input', (e)=>{ doSearch(e.target.value); });
+
+      // small helper: escape HTML
+      function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    }
+
+    function openSearch(){ createOverlay(); const ov = document.getElementById(SEARCH_OVERLAY_ID); if(!ov) return; ov.setAttribute('aria-hidden','false'); ov.style.display = 'block'; document.body.style.overflow = 'hidden'; const input = document.getElementById('qsInput'); if(input){ input.focus(); input.select(); } }
+    function closeSearch(){ const ov = document.getElementById(SEARCH_OVERLAY_ID); if(!ov) return; ov.setAttribute('aria-hidden','true'); ov.style.display = 'none'; document.body.style.overflow=''; const btn = document.getElementById(SEARCH_BTN_ID); if(btn) btn.focus(); }
+
+    // inject button into header top-actions
+    try{
+      const top = document.querySelector('.top-actions');
+      if(top && !document.getElementById(SEARCH_BTN_ID)){
+        const b = document.createElement('button'); b.id = SEARCH_BTN_ID; b.type='button'; b.className='btn-ghost qs-trigger'; b.title='Search site'; b.setAttribute('aria-label','Open search');
+        b.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        // place before Sign in button if available
+        const signIn = document.getElementById('signInBtn'); if(signIn) top.insertBefore(b, signIn); else top.appendChild(b);
+        b.addEventListener('click', openSearch);
+        // keyboard shortcut: Ctrl+K or / focuses search
+        document.addEventListener('keydown', (e)=>{ if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openSearch(); } else if(e.key === '/'){
+          // avoid typing into inputs - only when focus is on body
+          const tag = document.activeElement && document.activeElement.tagName; if(tag === 'BODY' || tag === 'HTML') { e.preventDefault(); openSearch(); }
+        }});
+      }
+    }catch(e){ console.warn('Quick search injection failed', e); }
+  })();
+
 });
 
