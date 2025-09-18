@@ -7,6 +7,89 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
   </head>
   <body>
+    <!-- Put this at the top of <body> -->
+    <div id="construction-banner" role="region" aria-label="Site construction notice">
+      <div class="cb-inner">
+        <span class="cb-title">Disclaimer:</span>
+        <span class="cb-text">This page is under construction — some features may be unavailable.</span>
+        <a class="cb-link" href="/under-construction" title="Learn more about the site work">Learn more</a>
+        <button id="cb-dismiss" aria-label="Dismiss construction notice">×</button>
+      </div>
+    </div>
+    <!-- Styles (can go in your CSS file) -->
+    <style>
+      :root{
+        --cb-bg: #1f2937;      /* dark */
+        --cb-text: #fff;
+        --cb-accent: #f59e0b;  /* amber accent */
+      }
+
+      #construction-banner{
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        background: linear-gradient(90deg, var(--cb-bg), rgba(0,0,0,0.6));
+        color: var(--cb-text);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      }
+
+      #construction-banner .cb-inner{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 8px 14px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      .cb-title{
+        font-weight: 700;
+        margin-right: 6px;
+        color: var(--cb-accent);
+      }
+
+      .cb-text{
+        flex: 1 1 auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .cb-link{
+        margin-left: 8px;
+        text-decoration: underline;
+        color: var(--cb-text);
+        opacity: 0.95;
+      }
+
+      #cb-dismiss{
+        margin-left: 12px;
+        background: transparent;
+        border: none;
+        color: var(--cb-text);
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 4px 8px;
+      }
+
+      /* Make sure banner doesn't cover page content when visible */
+      body.cb-has-banner { padding-top: 44px; }
+
+      /* Responsive smaller screens */
+      @media (max-width: 560px){
+        #construction-banner .cb-inner{
+          font-size: 13px;
+          padding: 8px 10px;
+        }
+        .cb-text{ display:none; }
+      }
+    </style>
+
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" role="banner">
       <div class="container">
