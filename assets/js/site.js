@@ -86,11 +86,11 @@ document.addEventListener('DOMContentLoaded',function(){
   const signInBtn = document.getElementById('signInBtn');
   const signUpBtn = document.getElementById('signUpBtn');
 
-  // If we are on the dedicated login page, render the form area
+  // If the login placeholder exists on the page, render the form area.
+  // Avoid relying on exact pathname checks (some hosts or previews may rewrite paths).
   function renderLoginPage(){
-    if(!window.location.pathname.endsWith('/login.html') && !window.location.pathname.endsWith('login.html')) return;
     const authBox = document.getElementById('authBox');
-    if(!authBox) return;
+    if(!authBox) return; // not a login page
     // Build tabs for Sign in / Sign up
     authBox.innerHTML = `
       <div class="auth-tabs">
