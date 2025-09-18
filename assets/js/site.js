@@ -3,14 +3,13 @@ document.addEventListener('DOMContentLoaded',function(){
   const year = document.getElementById('year'); if(year) year.textContent = '226480';
   // Runtime safety: rewrite any stale external recruitment links to internal path
   try{
+    // Ensure any .military-ad anchors point to the in-repo military landing page
     const anchors = Array.from(document.querySelectorAll('a.military-ad'));
     anchors.forEach(a=>{
       try{
-        if(a.href && a.href.indexOf('example-military.example.org') !== -1){
-          a.href = 'military/index.html';
-          a.removeAttribute('target'); a.removeAttribute('rel');
-          a.setAttribute('aria-label','Visit the Military portal');
-        }
+        a.href = 'military/index.html';
+        a.removeAttribute('target'); a.removeAttribute('rel');
+        a.setAttribute('aria-label','Visit the Military portal');
       }catch(_){ }
     });
   }catch(_){ }
