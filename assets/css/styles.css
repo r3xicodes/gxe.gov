@@ -59,6 +59,25 @@ main{padding:2rem 0}
 .military-hero h1{font-size:clamp(1.5rem,2.6vw,3rem);margin:0 0 .5rem}
 .military-hero p.lede{color:var(--muted);max-width:60ch;font-size:clamp(.95rem,1.6vw,1.25rem)}
 
+/* Accessibility: subtle backdrop to improve text legibility over images/GIFs
+   Uses a semi-transparent layer and text-shadow for clarity while preserving the media. */
+.media-backdrop{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(2,6,23,0.28), rgba(2,6,23,0.32));pointer-events:none}
+.hero-overlay,
+.slide .slide-content{position:relative;z-index:2}
+.hero-overlay { color: var(--fg); }
+.hero-overlay * { text-shadow: 0 2px 6px rgba(2,6,23,0.65); }
+
+/* Slightly stronger backdrop for very light images: use a utility class on a per-section basis */
+.backdrop-strong .media-backdrop{background:linear-gradient(180deg, rgba(2,6,23,0.42), rgba(2,6,23,0.5));}
+
+/* Ensure slideshow text also benefits from backdrop and shadow for contrast */
+.slide .slide-content .slide-copy h2, .slide .slide-content .slide-copy p{color:var(--fg);text-shadow:0 2px 8px rgba(2,6,23,0.7)}
+
+/* Small-screen tweak: reduce shadow on tiny viewports for legibility without overpowering */
+@media (max-width:360px){
+  .hero-overlay * { text-shadow: 0 1px 3px rgba(2,6,23,0.6); }
+}
+
 .branch-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1rem}
 .branch-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:.6rem}
 .branch-card h3{margin:0;font-size:1.05rem}
