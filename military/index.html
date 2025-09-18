@@ -8,34 +8,65 @@
   </head>
   <body>
     <header class="site-header">
-      <nav>
-        <ul>
-          <li><a href="../index.html">Home</a></li>
-          <li><a href="../laws/index.html">Laws &amp; Legislation</a></li>
-          <li><a href="about.html">About the Military</a></li>
-        </ul>
-      </nav>
+      <div class="container">
+        <div class="brand-with-emblem"><a class="brand" href="../index.html">GXE Government</a></div>
+      </div>
     </header>
     <main class="container">
-      <h1>GXE Military Portal (Draft)</h1>
-      <p>This is a separate area to develop military-related content and pages. Use this branch to prototype and iterate without affecting the public site.</p>
-
-      <section>
-        <h2>Major formations & commands</h2>
-        <ul>
-          <li><a href="units/aaril-forve-royul-xana.html">Aaril Forve Royul Xana — Royal Xana Aerial Forces</a></li>
-          <li><a href="units/navil-forve-royul-xana.html">Navil Forve Royul Xana — Royal Xana Navy</a></li>
-          <li><a href="units/navil-forve-nashunal-xana.html">Navil Forve Nashunal Xana — Xana National Navy</a></li>
-          <li><a href="units/graund-forve-xana.html">Graund Forve Xana — Xana Ground Forces</a></li>
-          <li><a href="units/royul-gard-forve-xana.html">Royul Gard Forve Xana — Royal Xana Guard</a></li>
-          <li><a href="units/marin-forve-royul-xana.html">Marin Forve Royul Xana — Royal Xana Marine Corps</a></li>
-          <li><a href="units/staarborn-forve-xana.html">Staarborn Forve Xana — Xana Starborne Fleet</a></li>
-          <li><a href="units/speciel-worfare-forve-xana.html">Speciel Worfare Forve Xana — Xana Special Warfare Command (SWORD &amp; STAR)</a></li>
-          <li><a href="units/strajic-missel-forve-xana.html">Stratajic Missel Forve Xana — Xana Strategic Missile Forces</a></li>
-        </ul>
+      <section class="military-hero" aria-labelledby="milHeroTitle">
+        <div class="hero-media">
+          <video autoplay muted loop playsinline poster="../assets/images/slide1.jpg" aria-hidden="true">
+            <source src="../assets/images/slide1.jpg" type="image/jpeg">
+            <!-- Fallback to static image if no video available -->
+          </video>
+        </div>
+        <div class="hero-overlay">
+          <h1 id="milHeroTitle">Imperial Forces — Serve with Honor</h1>
+          <p class="lede">Explore the branches of the Imperial Forces, recruitment information, and public resources for service members and families.</p>
+          <p><a class="btn" href="about.html">About the Military</a></p>
+        </div>
       </section>
 
-      <p><a class="btn" href="about.html">About the Military</a></p>
+      <section aria-labelledby="branchesHeading">
+        <h2 id="branchesHeading">Branches & Commands</h2>
+        <div class="branch-cards">
+          <article class="branch-card">
+            <h3>Aerial Forces</h3>
+            <p>Royal Xana Aerial Forces — air superiority, space patrols, and rapid response.</p>
+            <a class="btn cta" href="units/aaril-forve-royul-xana.html">View Aerial Forces</a>
+          </article>
+
+          <article class="branch-card">
+            <h3>Royal Navy</h3>
+            <p>Naval fleet operations, sea lanes security, and planetary defense.</p>
+            <a class="btn cta" href="units/navil-forve-royul-xana.html">View Royal Navy</a>
+          </article>
+
+          <article class="branch-card">
+            <h3>Ground Forces</h3>
+            <p>Army formations, national defense, and expeditionary forces.</p>
+            <a class="btn cta" href="units/graund-forve-xana.html">View Ground Forces</a>
+          </article>
+
+          <article class="branch-card">
+            <h3>Marine Corps</h3>
+            <p>Ship-to-shore operations, amphibious assault, and rapid deployments.</p>
+            <a class="btn cta" href="units/marin-forve-royul-xana.html">View Marines</a>
+          </article>
+
+          <article class="branch-card">
+            <h3>Guard & Special Forces</h3>
+            <p>Royal Guard, Special Warfare Command — elite protection and special operations.</p>
+            <a class="btn cta" href="units/royul-gard-forve-xana.html">View Guard & Special</a>
+          </article>
+
+          <article class="branch-card">
+            <h3>Strategic Forces</h3>
+            <p>Strategic missile and long-range deterrence commands.</p>
+            <a class="btn cta" href="units/strajic-missel-forve-xana.html">View Strategic Forces</a>
+          </article>
+        </div>
+      </section>
     </main>
     <footer>
       <p>&copy; GXE</p>
