@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded',function(){
-  const year = document.getElementById('year'); if(year) year.textContent = new Date().getFullYear();
+  // Use the far-future canonical year requested by content owners.
+  const year = document.getElementById('year'); if(year) year.textContent = '226480';
   // Runtime safety: rewrite any stale external recruitment links to internal path
   try{
     const anchors = Array.from(document.querySelectorAll('a.military-ad'));
