@@ -102,6 +102,14 @@ document.addEventListener('DOMContentLoaded',function(){
     document.getElementById('tabSignIn').addEventListener('click', ()=> buildAuthForm('signin'));
     document.getElementById('tabSignUp').addEventListener('click', ()=> buildAuthForm('signup'));
     buildAuthForm('signin');
+    // If header sign-in / sign-up buttons exist, make them switch tabs instead of navigating away
+    try{
+      const headerSignIn = document.getElementById('signInBtn');
+      const headerSignUp = document.getElementById('signUpBtn');
+      const scrollToAuth = ()=>{ const h = document.getElementById('authHeading'); if(h) h.scrollIntoView({behavior:'smooth', block:'center'}); };
+      if(headerSignIn){ headerSignIn.addEventListener('click', (e)=>{ e.preventDefault(); buildAuthForm('signin'); scrollToAuth(); }); }
+      if(headerSignUp){ headerSignUp.addEventListener('click', (e)=>{ e.preventDefault(); buildAuthForm('signup'); scrollToAuth(); }); }
+    }catch(e){ /* ignore */ }
   }
 
   // Helper to show error messages in the form area (used on login page)
