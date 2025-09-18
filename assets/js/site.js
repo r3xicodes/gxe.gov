@@ -1,5 +1,18 @@
 document.addEventListener('DOMContentLoaded',function(){
   const year = document.getElementById('year'); if(year) year.textContent = new Date().getFullYear();
+  // Runtime safety: rewrite any stale external recruitment links to internal path
+  try{
+    const anchors = Array.from(document.querySelectorAll('a.military-ad'));
+    anchors.forEach(a=>{
+      try{
+        if(a.href && a.href.indexOf('example-military.example.org') !== -1){
+          a.href = 'military/index.html';
+          a.removeAttribute('target'); a.removeAttribute('rel');
+          a.setAttribute('aria-label','Visit the Military portal');
+        }
+      }catch(_){ }
+    });
+  }catch(_){ }
   const navToggle = document.getElementById('navToggle');
   const mainNav = document.getElementById('mainNav');
   let siteOverlay = document.getElementById('siteOverlay');
