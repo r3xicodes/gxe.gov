@@ -96,10 +96,12 @@
       (function(){
         const cfg = window.__GXE_FIREBASE_CONFIG;
         if(!cfg){ document.getElementById('adminArea').innerHTML = '<p>No Firebase config found. Add your config to enable admin approvals.</p>'; return; }
-        const s1 = document.createElement('script'); s1.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'; document.head.appendChild(s1);
-        const s2 = document.createElement('script'); s2.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js'; document.head.appendChild(s2);
-        const s3 = document.createElement('script'); s3.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js'; document.head.appendChild(s3);
-        s3.onload = ()=>{
+  const s1 = document.createElement('script'); s1.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js'; document.head.appendChild(s1);
+  const s2 = document.createElement('script'); s2.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js'; document.head.appendChild(s2);
+  const s3 = document.createElement('script'); s3.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js'; document.head.appendChild(s3);
+  // Load Functions compat so admin UI can call callable functions (approveUser) when deployed
+  const s4 = document.createElement('script'); s4.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-functions-compat.js'; document.head.appendChild(s4);
+  s3.onload = ()=>{
           try{ firebase.initializeApp(cfg); const auth = firebase.auth(); const db = firebase.firestore();
             auth.onAuthStateChanged(user=>{
               if(!user){ document.getElementById('adminArea').innerHTML = `<p>Please sign in as an admin: <input id="admEmail" placeholder="email"><input id="admPass" placeholder="password" type="password"><button id="admLogin">Sign in</button></p>`; document.getElementById('admLogin').addEventListener('click', ()=>{ const em=document.getElementById('admEmail').value; const pw=document.getElementById('admPass').value; auth.signInWithEmailAndPassword(em,pw).then(()=>loadPending()).catch(e=>alert(e.message)) }); return; }
