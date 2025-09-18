@@ -89,6 +89,40 @@
         .cb-text{ display:none; }
       }
     </style>
+    <!-- Behavior (can go in your JS bundle) -->
+    <script>
+      (function(){
+        const ID = 'construction-banner';
+        const STORAGE_KEY = 'cb-dismissed-v1'; // bump version to show again later if needed
+        const banner = document.getElementById(ID);
+        if(!banner) return;
+
+        // If user dismissed before, don't show
+        if(localStorage.getItem(STORAGE_KEY)) {
+        banner.style.display = 'none';
+        return;
+        }
+
+        // Add body padding so page content isn't hidden under banner
+        document.documentElement.classList.add('cb-banner-present');
+        document.body.classList.add('cb-has-banner');
+
+        const btn = document.getElementById('cb-dismiss');
+        btn.addEventListener('click', () => {
+          // hide and remember dismissal
+          banner.style.display = 'none';
+          document.body.classList.remove('cb-has-banner');
+          try { localStorage.setItem(STORAGE_KEY, '1'); } catch(e){}
+        });
+
+        // Optional: allow dismiss by pressing Escape
+        document.addEventListener('keydown', (e) => {
+          if(e.key === 'Escape') {
+            btn.click();
+          }
+        });
+      })();
+    </script>
 
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" role="banner">
