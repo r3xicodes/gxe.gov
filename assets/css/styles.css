@@ -27,6 +27,10 @@ body{padding-top:92px}
 .main-nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1rem}
 .main-nav a{text-decoration:none;color:var(--fg);padding:.35rem .5rem;border-radius:8px}
 .main-nav a:hover{background:var(--surface)}
+
+/* small nav badge for important links (e.g., Military) */
+.nav-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem .5rem;border-radius:999px;background:linear-gradient(90deg,#2b3545,#182232);border:1px solid rgba(255,255,255,0.03);font-weight:700;color:var(--accent);font-size:.95rem}
+.nav-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--accent-2);box-shadow:0 6px 18px rgba(110,231,183,0.08)}
 .top-actions{display:flex;gap:.5rem;align-items:center}
 .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:.45rem .7rem;border-radius:8px;color:var(--fg)}
 .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#04202b;padding:.5rem .85rem;border-radius:10px;border:none;box-shadow:var(--glow)}
